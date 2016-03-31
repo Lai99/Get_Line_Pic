@@ -11,8 +11,8 @@ def download_file(path, url):
             f.write(chunk)
 
 
-def get_pic():
-    url = 'https://store.line.me/stickershop/product/6153/zh-Hant'
+def get_pic(url):
+    # url = 'https://store.line.me/stickershop/product/6153/zh-Hant'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     is_animation = True
