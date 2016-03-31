@@ -3,11 +3,15 @@ import requests
 import os
 
 
-def download_file():
-    pass
+def download_file(path, url):
+    filename = url.split("/")[-1]
+    r = requests.get(url, stream=True)
+    with open(os.path.join(path, filename), 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            f.write(chunk)
 
 
-def main():
+def get_pic():
     url = 'https://store.line.me/stickershop/product/6153/zh-Hant'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -33,4 +37,5 @@ def main():
         download_file(download_dir, url)
 
 if __name__ == '__main__':
-    main()
+    # main()
+    pass
