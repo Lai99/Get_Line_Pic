@@ -37,7 +37,7 @@ def get_pic(url, check):
 
     if len(pic_urls) == 0:
         print "Find no picture to download"
-        return 1
+        return None
 
     title = soup.title.text.split()[0]
 
@@ -48,6 +48,7 @@ def get_pic(url, check):
     for url in pic_urls:
         download_file(download_dir, url)
         time.sleep(0.1)
+
 
 if __name__ == '__main__':
     # main()
