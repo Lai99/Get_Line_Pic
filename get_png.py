@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import os
+import time
 
 
 def download_file(path, url):
@@ -11,11 +12,15 @@ def download_file(path, url):
             f.write(chunk)
 
 
-def get_pic(url):
-    # url = 'https://store.line.me/stickershop/product/6153/zh-Hant'
+def get_pic(url, check):
+    """
+        get_pic(url) -> Get url and parse the html content then to find the tag <span> which also have
+                                attribute 'style'. From the tag text to get the picture url and download the pics
+                                in folder with the name 'title'
+        """
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    is_animation = True
+    is_animation = check
 
     pic_urls = []
     for tag in soup.find_all("span"):
@@ -27,6 +32,13 @@ def get_pic(url):
         sticker = style[l_p:r_p]
         if is_animation:
             pic_urls.append(sticker.replace("/stickers", "/animation"))
+        else:
+            pic_urls.append(sticker)
+
+    if len(pic_urls) == 0:
+        print "Find no picture to download"
+        return 1
+
     title = soup.title.text.split()[0]
 
     if not os.path.exists(title):
@@ -35,6 +47,7 @@ def get_pic(url):
     download_dir = os.path.join(os.getcwd(), title)
     for url in pic_urls:
         download_file(download_dir, url)
+        time.sleep(0.1)
 
 if __name__ == '__main__':
     # main()
