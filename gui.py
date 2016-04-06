@@ -4,12 +4,14 @@ import Queue
 from threading import Thread
 import re
 
+
 class GUI:
     def __init__(self, root):
         """
                 Initial the gui components and make a queue for  catching the picture download complete message
                 """
         self.root = root
+        self.root.bind('<Return>', self.btn_active)
         self.inputText = Label(root, text="URL:", bd=3)
         self.inputText.pack(side=LEFT)
         self.url = StringVar()
@@ -26,7 +28,7 @@ class GUI:
         # Make the queue for catching the picture download complete message
         self.queue = Queue.Queue()
 
-    def btn_active(self):
+    def btn_active(self, event=None):
         """
                 Button event -> When the button pressed, the button disable and start a thread to execute download task.
                                          Then call  "process_queue" to listen the task is done or not.
@@ -34,6 +36,7 @@ class GUI:
         if not self.check_url():
             # If return None means illegal URL
             self.url.set("Invalid URL")
+            print "Invalid URL"
             return None
 
         self.execBtn.config(state=DISABLED)
@@ -72,6 +75,7 @@ class ThreadTask(Thread):
         self.queue = queue
         self.url = url
         self.check = check
+        print "Thread start"
 
     def run(self):
         try:
@@ -83,8 +87,9 @@ class ThreadTask(Thread):
 
 def main():
     root = Tk()
+    root.attributes("-topmost", True)
     GUI(root)
-    mainloop()
+    root.mainloop()
 
 if __name__ == '__main__':
     main()
