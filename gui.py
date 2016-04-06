@@ -21,7 +21,7 @@ class GUI:
         self.var = IntVar()
         self.checkBtn = Checkbutton(root, variable=self.var)
         self.checkBtn.pack(side=LEFT)
-        self.statusText = Label(root, width=8, bd=3)
+        self.statusText = Label(root, width=8, bd=3, text="Ready")
         self.statusText.pack(side=LEFT)
         self.execBtn = Button(root, text="GET", bd=3, command=self.btn_active)
         self.execBtn.pack(side=LEFT, padx=4)
